@@ -1,19 +1,20 @@
-import tensorflow as tf
-from tensorflow import keras
-import numpy as np
+import matplotlib.pyplot as plt
+import numpy as np 
+import pandas as pd
+from sklearn.linear_model import LinearRegression
 
-# Generate sample data
-X = np.random.rand(100, 1)
-y = X * 2 + 1  # Simple equation: y = 2x + 1
+data = "../data/lifesat.csv"
+lifesat = pd.read_csv(data)
 
-# Build a simple AI model (Neural Network)
-model = keras.Sequential([
-    keras.layers.Dense(1, input_shape=(1,))
-])
+x = lifesat[["GDP per capita (USD)"]].values
+y = lifesat[["Life satisfaction"]].values
 
-# Compile and train
-model.compile(optimizer="adam", loss="mse")
-model.fit(X, y, epochs=100, verbose=0)
+head = lifesat.head()
+lifesat.plot(kind='scatter', x="GDP per capita (USD)", y='Life satisfaction')
+plt.show()
 
-# Predict with AI
-print(model.predict([[0.5]]))  # Should be close to 2
+model = LinearRegression()
+model.fit(x, y)
+
+print(lifesat.head())
+
